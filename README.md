@@ -17,6 +17,10 @@ After cloning you can open "TERMINAL" or "CMD" as admin
 Then do an npm install if getting errors google and make sure angular/cli is installed as well as Angular
 Then do ng serve
 
+# QED Covid Stats
+The app handles covid data from the 4 main countries that qed exists in Mauratious,South Africa,Nigeria and 
+Then user can navigate through each link on the mene and view data accordingly with graphs
+
 # Created By
 Lawrence "Motsamae-The walker" Phakathi- Intermediate Software Developer for QED Actuary and Consulatants
 
