@@ -8,12 +8,17 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from '../app/app.routing.module'
+import { HttpClientModule } from '@angular/common/http';
+import { SouthAfricaComponent } from './south-africa/south-africa.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SouthAfricaComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +28,10 @@ import { AppRoutingModule } from '../app/app.routing.module'
     MatListModule,
     MatIconModule,
     MatButtonModule,
+    MatCardModule,
+    MatTabsModule,
     FlexLayoutModule,
+    HttpClientModule,
     AppRoutingModule
   ],
   providers: [],

@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { OverallComponent } from '../app/overall/overall.component';
+import { SouthAfricaComponent } from '../app/south-africa/south-africa.component';
+import { NewCasesComponent } from '../app/new-cases/new-cases.component';
 const routes: Routes = [
-  { path: 'overall', component: OverallComponent },
-  { path: '', redirectTo: '/overall', pathMatch: 'full' }
+  { path: 'south-africa', component: SouthAfricaComponent },
+  { path: 'new-cases', component: NewCasesComponent },
+
+  { path: '', redirectTo: '/south-africa', pathMatch: 'full' }
 ];
 @NgModule({
   imports: [
