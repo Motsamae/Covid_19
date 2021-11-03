@@ -1,10 +1,12 @@
-<mat-card-content>
-  <mat-tab-group mat-align-tabs="center">
-    <mat-tab label="Overall">
-      <chart [type]="type" [data]="data" [options]="options"></chart>
-    </mat-tab>
-    <mat-tab label="Gauteng">Gauteng</mat-tab>
-    <mat-tab label="Western Cape">Western Cape</mat-tab>
-    <mat-tab label="Kwa Zulu/Natal">Kwa Zulu/Natal</mat-tab>
-  </mat-tab-group>
-</mat-card-content>
+<mat-card class="dashboard-card">
+  <mat-card-content >
+    <mat-tab-group mat-align-tabs="center">
+      <mat-tab label="Overall" class="dashboard-card-content">
+        <chart [type]="type" [data]="data" [options]="options"></chart>
+      </mat-tab>
+      <mat-tab label="Gauteng">Gauteng</mat-tab>
+      <mat-tab label="Western Cape">Western Cape</mat-tab>
+      <mat-tab label="Kwa Zulu/Natal">Kwa Zulu/Natal</mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
