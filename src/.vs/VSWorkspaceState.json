@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\app"
+    "\\app",
+    "\\app\\services",
+    "\\app\\south-africa"
   ],
+  "SelectedNode": "\\app",
   "PreviewInSolutionExplorer": false
 }

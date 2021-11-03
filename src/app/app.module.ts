@@ -13,6 +13,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from '../app/app.routing.module'
 import { HttpClientModule } from '@angular/common/http';
+import { ChartModule } from 'angular2-chartjs';
+
 import { SouthAfricaComponent } from './south-africa/south-africa.component';
 
 @NgModule({
@@ -32,6 +34,7 @@ import { SouthAfricaComponent } from './south-africa/south-africa.component';
     MatTabsModule,
     FlexLayoutModule,
     HttpClientModule,
+    ChartModule,
     AppRoutingModule
   ],
   providers: [],
