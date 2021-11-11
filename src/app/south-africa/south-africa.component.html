@@ -2,6 +2,10 @@
   <mat-card-content >
     <mat-tab-group mat-align-tabs="center">
       <mat-tab label="Overall" class="dashboard-card-content">
+
+        <pre>doughnutChartLabels:{{doughnutChartLabels}}</pre>
+        <hr />
+        <pre>demodoughnutChartData:{{demodoughnutChartData}}</pre>
         <chart [type]="type" [data]="data" [options]="options"></chart>
         <hr>
 

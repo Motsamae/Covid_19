@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { ChartType } from 'chart.js';
 import { QedCovidService } from '../services/qed-covid.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'south-africa',
@@ -12,11 +13,11 @@ export class SouthAfricaComponent implements OnInit {
 
   type = 'line';
   data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: new Array<string>(),// ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
       {
-        label: "My First dataset",
-        data: [65, 59, 80, 81, 56, 55, 40]
+        label: "Positive Covid Results",
+        data: new Array<number>()// [65, 59, 80, 81, 56, 55, 40]
       }
     ]
   };
@@ -25,7 +26,7 @@ export class SouthAfricaComponent implements OnInit {
     maintainAspectRatio: false
   };
 
-  constructor(private qedCovidService: QedCovidService) {
+  constructor(private qedCovidService: QedCovidService, public datepipe: DatePipe) {
 
   }
 
@@ -33,9 +34,9 @@ export class SouthAfricaComponent implements OnInit {
     this.getDailyReportByCountryNameAndDate();
   }
 
-  public doughnutChartLabels: string[] = ['Age 18 to 24', 'Age 25 to 35', 'Above 35+'];
-  public demodoughnutChartData: number[][] = [[350, 450, 100], [250, 350, 150], [0, 100, 150]];
-  public doughnutChartType: ChartType  = 'line';
+  public doughnutChartLabels: string[] = [];// ['Age 18 to 24', 'Age 25 to 35', 'Above 35+'];
+  public demodoughnutChartData: number[][] = [];// [[350, 450, 100], [250, 350, 150], [0, 100, 150]];
+  public doughnutChartType: ChartType = 'line';
 
   // events
   public chartClicked(e: any): void {
@@ -47,7 +48,7 @@ export class SouthAfricaComponent implements OnInit {
   }
 
   getDailyReportByCountryNameAndDate() {
-    const overAllDateList = []
+    const overAllDateList: string[] = []
     for (var i = 0; i < 7; i++) {
       const todaysDate = new Date();
       todaysDate.setDate(todaysDate.getDate() - i);
@@ -67,9 +68,28 @@ export class SouthAfricaComponent implements OnInit {
         console.log(dayFive);
         console.log(daySix);
         console.log(this.qedCovidService.dailyReportByCountryName);
+
+        // separate the days data to get labels
+        // this.data
+        for (var i = 0; i < overAllDateList.length; i++) {
+          const getCaseDay = this.qedCovidService.dailyReportByCountryName['south-africa'].find((x: any) => x.day === overAllDateList[i]);
+          const convertCaseToNumberArray = getCaseDay.cases.new.split('+');
+          const caseToNumber = Number(convertCaseToNumberArray[1]);
+          this.data.datasets[0].data.push(caseToNumber);
+          const todaysDateLable = new Date(overAllDateList[i]);
+          const todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
+          this.data.labels.push(todaysDateLableConverted);
+          if (!this.demodoughnutChartData[0]) {
+            this.demodoughnutChartData[0] = [];
+          }
+          this.demodoughnutChartData[0].push(caseToNumber);
+          this.doughnutChartLabels.push(todaysDateLableConverted!);
+        }
+
       }, function (err: any) {
         console.log(err);
       });
+
   }
 
 }

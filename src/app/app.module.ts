@@ -16,7 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ChartModule } from 'angular2-chartjs';
 import { ChartsModule, ThemeService } from 'ng2-charts';
 import { SouthAfricaComponent } from './south-africa/south-africa.component';
-
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +38,7 @@ import { SouthAfricaComponent } from './south-africa/south-africa.component';
     AppRoutingModule,
     ChartsModule,
   ],
-  providers: [ThemeService],
+  providers: [ThemeService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
