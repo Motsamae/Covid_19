@@ -14,7 +14,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from '../app/app.routing.module'
 import { HttpClientModule } from '@angular/common/http';
 import { ChartModule } from 'angular2-chartjs';
-
+import { ChartsModule, ThemeService } from 'ng2-charts';
 import { SouthAfricaComponent } from './south-africa/south-africa.component';
 
 @NgModule({
@@ -35,9 +35,10 @@ import { SouthAfricaComponent } from './south-africa/south-africa.component';
     FlexLayoutModule,
     HttpClientModule,
     ChartModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ChartsModule,
   ],
-  providers: [],
+  providers: [ThemeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

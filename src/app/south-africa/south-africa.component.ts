@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
-
+import { ChartType } from 'chart.js';
 import { QedCovidService } from '../services/qed-covid.service';
 
 @Component({
@@ -31,6 +31,19 @@ export class SouthAfricaComponent implements OnInit {
 
   ngOnInit() {
     this.getDailyReportByCountryNameAndDate();
+  }
+
+  public doughnutChartLabels: string[] = ['Age 18 to 24', 'Age 25 to 35', 'Above 35+'];
+  public demodoughnutChartData: number[][] = [[350, 450, 100], [250, 350, 150], [0, 100, 150]];
+  public doughnutChartType: ChartType  = 'line';
+
+  // events
+  public chartClicked(e: any): void {
+    console.log(e);
+  }
+
+  public chartHovered(e: any): void {
+    console.log(e);
   }
 
   getDailyReportByCountryNameAndDate() {
