@@ -1,21 +1,28 @@
 <mat-card class="dashboard-card">
-  <mat-card-content >
+  <mat-card-content>
     <mat-tab-group mat-align-tabs="center">
       <mat-tab label="Overall" class="dashboard-card-content">
-
-        <pre>doughnutChartLabels:{{doughnutChartLabels}}</pre>
+        <!--chart
+        <pre>doughnutChartLabels:{{doughnutChartLabels|json}}</pre>
         <hr />
-        <pre>demodoughnutChartData:{{demodoughnutChartData}}</pre>
-        <chart [type]="type" [data]="data" [options]="options"></chart>
+        <pre>demodoughnutChartData:{{demodoughnutChartData|json}}</pre>-->
+        <!--<chart [type]="type" [data]="data" [options]="options"></chart>-->
         <hr>
-
-        <div style="display: block">
-          <canvas baseChart
-                  [data]="demodoughnutChartData"
-                  [labels]="doughnutChartLabels"
-                  [chartType]="doughnutChartType"
-                  (chartHover)="chartHovered($event)"
-                  (chartClick)="chartClicked($event)"></canvas>
+        <div class="flex">
+          <div class="flex-item">
+            canvas
+            <div style="display: block">
+              <canvas baseChart width="400" height="400"
+                      [labels]="doughnutChartLabels"
+                      [datasets]="demodoughnutChartData2"
+                      [chartType]="doughnutChartType"
+                      [colors]="doughnutChartColors"
+                      [options]="options"
+                      (chartHover)="chartHovered($event)"
+                      (chartClick)="chartClicked($event)"></canvas>
+            </div>
+            <!--<pre>{{demodoughnutChartData2|json}}</pre>-->
+          </div>
         </div>
       </mat-tab>
       <mat-tab label="Gauteng">Gauteng</mat-tab>

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { forkJoin } from 'rxjs';
-import { ChartType } from 'chart.js';
+import { ChartDataSets, ChartType } from 'chart.js';
 import { QedCovidService } from '../services/qed-covid.service';
 import { DatePipe } from '@angular/common';
+import { BaseChartDirective, Color } from 'ng2-charts';
 
 @Component({
   selector: 'south-africa',
@@ -16,7 +17,7 @@ export class SouthAfricaComponent implements OnInit {
     labels: new Array<string>(),// ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
       {
-        label: "Positive Covid Results",
+        label: "Positive Covid Results Last 7 Days",
         data: new Array<number>()// [65, 59, 80, 81, 56, 55, 40]
       }
     ]
@@ -35,9 +36,18 @@ export class SouthAfricaComponent implements OnInit {
   }
 
   public doughnutChartLabels: string[] = [];// ['Age 18 to 24', 'Age 25 to 35', 'Above 35+'];
-  public demodoughnutChartData: number[][] = [];// [[350, 450, 100], [250, 350, 150], [0, 100, 150]];
+  public demodoughnutChartData: number[] = [];// [[350, 450, 100], [250, 350, 150], [0, 100, 150]];
+  public demodoughnutChartData2: ChartDataSets[] = [{ data: [], label:'Positive Covid Results Last 7 Days'}]
   public doughnutChartType: ChartType = 'line';
-
+  public doughnutChartColors: Color[] = [{
+     // grey
+      backgroundColor: 'rgba(148,159,177,0.2)',
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+  }];
   // events
   public chartClicked(e: any): void {
     console.log(e);
@@ -61,13 +71,13 @@ export class SouthAfricaComponent implements OnInit {
       this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[4]), this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[5]),
       this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[6])).subscribe(([dayOne, dayTwo, dayThree, dayFour, dayFive, daySix]:
         [any, any, any, any, any, any, any]) => {
-        console.log(dayOne);
-        console.log(dayTwo);
-        console.log(dayThree);
-        console.log(dayFour);
-        console.log(dayFive);
-        console.log(daySix);
-        console.log(this.qedCovidService.dailyReportByCountryName);
+        // console.log(dayOne);
+        // console.log(dayTwo);
+        // console.log(dayThree);
+        // console.log(dayFour);
+        // console.log(dayFive);
+        // console.log(daySix);
+        // console.log(this.qedCovidService.dailyReportByCountryName);
 
         // separate the days data to get labels
         // this.data
@@ -79,17 +89,21 @@ export class SouthAfricaComponent implements OnInit {
           const todaysDateLable = new Date(overAllDateList[i]);
           const todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
           this.data.labels.push(todaysDateLableConverted);
-          if (!this.demodoughnutChartData[0]) {
-            this.demodoughnutChartData[0] = [];
-          }
-          this.demodoughnutChartData[0].push(caseToNumber);
+          // if (!this.demodoughnutChartData[0]) {
+          //  this.demodoughnutChartData[0] = [];
+          // }
+          this.demodoughnutChartData.push(caseToNumber!);
           this.doughnutChartLabels.push(todaysDateLableConverted!);
+          this.demodoughnutChartData2[0].data?.push(caseToNumber);
         }
-
+        // this.chart.update();
+        console.log(this.data);
+        console.log('ng2-charts');
+        console.log(this.demodoughnutChartData);
+        console.log(this.doughnutChartLabels);
       }, function (err: any) {
         console.log(err);
       });
 
   }
-
 }
