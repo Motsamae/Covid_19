@@ -37,6 +37,15 @@ export class QedCovidService {
       }));
   }
 
+  getDailyReportForProvinces(): any {
+    return this.http.get('https://covid-za-api.herokuapp.com/cases/timeline/provincial/cumulative').pipe(
+      map((res: any) => {
+        return res.splice(-8);
+      }), catchError(err => {
+        throw new Error(err);
+      }));
+  }
+
   dailyReportByCountryName: any = { 'south-africa': [], 'mauritius': [], 'kenya': [], 'nigeria': [] };
 
 }

@@ -2,15 +2,9 @@
   <mat-card-content>
     <mat-tab-group mat-align-tabs="center">
       <mat-tab label="Overall" class="dashboard-card-content">
-        <!--chart
-        <pre>doughnutChartLabels:{{doughnutChartLabels|json}}</pre>
-        <hr />
-        <pre>demodoughnutChartData:{{demodoughnutChartData|json}}</pre>-->
-        <!--<chart [type]="type" [data]="data" [options]="options"></chart>-->
         <hr>
         <div class="flex">
           <div class="flex-item">
-            canvas
             <div style="display: block">
               <canvas baseChart width="400" height="400"
                       [labels]="doughnutChartLabels"
@@ -21,11 +15,14 @@
                       (chartHover)="chartHovered($event)"
                       (chartClick)="chartClicked($event)"></canvas>
             </div>
+
             <!--<pre>{{demodoughnutChartData2|json}}</pre>-->
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="Gauteng">Gauteng</mat-tab>
+      <mat-tab label="Gauteng">
+        Gauteng
+      </mat-tab>
       <mat-tab label="Western Cape">Western Cape</mat-tab>
       <mat-tab label="Kwa Zulu/Natal">Kwa Zulu/Natal</mat-tab>
     </mat-tab-group>
