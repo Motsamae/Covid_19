@@ -44,7 +44,10 @@ export class SouthAfricaComponent implements OnInit {
   public demodoughnutChartData: number[] = [];// [[350, 450, 100], [250, 350, 150], [0, 100, 150]];
   public demodoughnutChartData2: ChartDataSets[] = [
     { data: [], label: 'South Africa' },
-    { data: [], label: 'Gauteng' }
+    { data: [], label: 'Gauteng' },
+    { data: [], label: 'KZN' },
+    { data: [], label: 'Western Cape' }
+
   ];
   public doughnutChartType: ChartType = 'line';
   public doughnutChartColors: Color[] = [{
@@ -63,7 +66,25 @@ export class SouthAfricaComponent implements OnInit {
     pointBorderColor: '#fff',
     pointHoverBackgroundColor: '#fff',
     pointHoverBorderColor: 'rgba(0,114,187,0.8)'
-  }];
+  }, {
+    // purple 147,112,219
+    backgroundColor: 'rgba(147,112,219,0.2)',
+    borderColor: 'rgba(147,112,219,1)',
+    pointBackgroundColor: 'rgba(147,112,219,1)',
+    pointBorderColor: '#fff',
+    pointHoverBackgroundColor: '#fff',
+    pointHoverBorderColor: 'rgba(147,112,219,0.8)'
+  }, {
+    // green
+    backgroundColor: 'rgba(202,255,112,0.2)',
+    borderColor: 'rgba(202,255,112,1)',
+    pointBackgroundColor: 'rgba(202,255,112,1)',
+    pointBorderColor: '#fff',
+    pointHoverBackgroundColor: '#fff',
+    pointHoverBorderColor: 'rgba(202,255,112,0.8)'
+
+  }
+  ];
 
   gautengCovidData: any = [];
   // events
@@ -96,20 +117,25 @@ export class SouthAfricaComponent implements OnInit {
           const getCaseDay = this.qedCovidService.dailyReportByCountryName['south-africa'].find((x: any) => x.day === overAllDateList[i]);
           const convertCaseToNumberArray = getCaseDay.cases.new.split('+');
           const caseToNumber = Number(convertCaseToNumberArray[1]);
-          this.data.datasets[0].data.push(caseToNumber);
+          // this.data.datasets[0].data.push(caseToNumber);
           const todaysDateLable = new Date(overAllDateList[i]);
           const todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
-          this.data.labels.push(todaysDateLableConverted);
+          // this.data.labels.push(todaysDateLableConverted);
           this.demodoughnutChartData.push(caseToNumber!);
           this.doughnutChartLabels.push(todaysDateLableConverted!);
           this.demodoughnutChartData2[0].data?.push(caseToNumber);
         }
-        // GAUTENG DATA
+        // Provice DATA
         const gautengCovidDataHolder = [];
+        const kznCovidDataHolder = []
+        const westernCapeDataHolder = [];
         for (let i = 0; i < gautengData.length; i++) {
           gautengCovidDataHolder.push(Number(gautengData[i].provinces.gauteng));
+          kznCovidDataHolder.push(Number(gautengData[i].provinces.kwazulu_natal));
+          westernCapeDataHolder.push(Number(gautengData[i].provinces.western_cape));
         }
         let diffVal: number;
+        // gauteng
         for (let i = 0; i < gautengCovidDataHolder.length; i++) {
           if (i !== 0) {
             diffVal = (gautengCovidDataHolder[i + 1]) - gautengCovidDataHolder[i];
@@ -117,16 +143,39 @@ export class SouthAfricaComponent implements OnInit {
             diffVal = (gautengCovidDataHolder[1]) - gautengCovidDataHolder[i];
           }
           if (diffVal) {
-            
-            if (this.data.datasets[1]) {
-              // this.data.datasets[1].data.push(diffVal);
-            } else {
-               // this.data.datasets[1]['data'] = [];
-              // console.log(this.data.datasets[1]['data']);
-              // console.log(this.data.datasets[1]);
-              // this.data.datasets[1]['data']// .push(diffVal);
-            }
             this.demodoughnutChartData2[1].data?.push(diffVal);
+
+            // manuelly get date and set cause of USA format
+            const todaysDateLable = this.doDate(gautengData[i].date);
+            const todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
+            this.data.labels.push(todaysDateLableConverted);
+          }
+        }
+        // kzn
+        for (let i = 0; i < kznCovidDataHolder.length; i++) {
+          if (i !== 0) {
+            diffVal = (kznCovidDataHolder[i + 1]) - kznCovidDataHolder[i];
+          } else {
+            diffVal = (kznCovidDataHolder[1]) - kznCovidDataHolder[i];
+          }
+          if (diffVal) {
+            this.demodoughnutChartData2[2].data?.push(diffVal);
+
+            // manuelly get date and set cause of USA format
+            const todaysDateLable = this.doDate(gautengData[i].date);
+            const todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
+            this.data.labels.push(todaysDateLableConverted);
+          }
+        }
+        // western cape
+        for (let i = 0; i < westernCapeDataHolder.length; i++) {
+          if (i !== 0) {
+            diffVal = (westernCapeDataHolder[i + 1]) - westernCapeDataHolder[i];
+          } else {
+            diffVal = (westernCapeDataHolder[1]) - westernCapeDataHolder[i];
+          }
+          if (diffVal) {
+            this.demodoughnutChartData2[3].data?.push(diffVal);
 
             // manuelly get date and set cause of USA format
             const todaysDateLable = this.doDate(gautengData[i].date);
