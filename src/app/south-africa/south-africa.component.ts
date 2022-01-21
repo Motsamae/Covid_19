@@ -42,7 +42,10 @@ export class SouthAfricaComponent implements OnInit {
 
   public doughnutChartLabels: string[] = [];// ['Age 18 to 24', 'Age 25 to 35', 'Above 35+'];
   public demodoughnutChartData: number[] = [];// [[350, 450, 100], [250, 350, 150], [0, 100, 150]];
-  public demodoughnutChartData2: ChartDataSets[] = [{ data: [], label: 'Positive Covid Results Last 7 Days' }]
+  public demodoughnutChartData2: ChartDataSets[] = [
+    { data: [], label: 'South Africa' },
+    { data: [], label: 'Gauteng' }
+  ];
   public doughnutChartType: ChartType = 'line';
   public doughnutChartColors: Color[] = [{
     // grey
@@ -118,8 +121,8 @@ export class SouthAfricaComponent implements OnInit {
             if (this.data.datasets[1]) {
               // this.data.datasets[1].data.push(diffVal);
             } else {
-               this.data.datasets[1]['data'] = [];
-              console.log(this.data.datasets[1]['data']);
+               // this.data.datasets[1]['data'] = [];
+              // console.log(this.data.datasets[1]['data']);
               // console.log(this.data.datasets[1]);
               // this.data.datasets[1]['data']// .push(diffVal);
             }
@@ -131,7 +134,7 @@ export class SouthAfricaComponent implements OnInit {
             this.data.labels.push(todaysDateLableConverted);
           }
         }
-        console.log(this.gautengCovidData);
+        console.log(this.demodoughnutChartData2);
       }, function (err: any) {
         console.log(err);
       });
