@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from '../app/app.routing.module'
 import { HttpClientModule } from '@angular/common/http';
@@ -34,11 +35,13 @@ import { HomeComponent } from './home/home.component';
     MatButtonModule,
     MatCardModule,
     MatTabsModule,
+    MatGridListModule,
     FlexLayoutModule,
     HttpClientModule,
     ChartModule,
     AppRoutingModule,
     ChartsModule,
+
   ],
   providers: [ThemeService, DatePipe],
   bootstrap: [AppComponent]

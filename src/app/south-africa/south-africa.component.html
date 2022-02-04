@@ -1,34 +1,96 @@
-<mat-card class="dashboard-card">
-  <mat-card-header>
-    <mat-card-title>Overview South Africa</mat-card-title>
-  </mat-card-header>
+<mat-grid-list cols="4" rowHeight="100px" style="padding-right:0.2rem">
+  <mat-grid-tile *ngFor="let tile of tiles"
+                 [colspan]="tile.cols"
+                 [rowspan]="tile.rows">
+    <!--[style.background]="tile.color"-->
+    {{tile.text}}
+  </mat-grid-tile>
+</mat-grid-list>
+<div style="display: flex;height: 100%;padding-right:0.5rem">
+  <div style="width:50%;height:100%">
+    <mat-card style="flex: 1 1 auto;">
+      <mat-card-header>
+        <mat-card-title>New Cases</mat-card-title>
+      </mat-card-header>
 
-  <mat-card-content>
-    <!--<mat-tab-group mat-align-tabs="center">
-      <mat-tab label="Overall" class="dashboard-card-content">
-        <hr>-->
-    <div class="flex">
-      <div class="flex-item">
-        <div style="display: block">
-          <canvas baseChart width="400" height="400"
-                  [labels]="doughnutChartLabels"
-                  [datasets]="demodoughnutChartData2"
-                  [chartType]="doughnutChartType"
-                  [colors]="doughnutChartColors"
-                  [options]="options"
-                  (chartHover)="chartHovered($event)"
-                  (chartClick)="chartClicked($event)"></canvas>
+      <mat-card-content>
+        <div class="flex">
+          <div class="flex-item">
+            <div style="display: block">
+              <canvas baseChart width="400" height="415"
+                      [labels]="doughnutChartLabels"
+                      [datasets]="demodoughnutChartData2"
+                      [chartType]="doughnutChartType"
+                      [colors]="doughnutChartColors"
+                      [options]="options"
+                      (chartHover)="chartHovered($event)"
+                      (chartClick)="chartClicked($event)"></canvas>
+            </div>
+
+          </div>
         </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div style="width:50%;padding-left:0.5rem">
+    <mat-card style="flex: 1 1 auto;" *ngIf="pieChartData.length > 0">
+      <mat-card-header>
+        <mat-card-title>Provinces-Last 7 days</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="flex">
+          <div class="flex-item">
+            <div style="display: block">
 
-        <!--<pre>{{demodoughnutChartData2|json}}</pre>-->
-      </div>
+              <canvas baseChart 
+                      [data]="pieChartData"
+                      [labels]="pieChartLabels"
+                      [chartType]="pieChartType"
+                      [options]="pieChartOptions"
+                      [plugins]="pieChartPlugins"
+                      [legend]="pieChartLegend">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<!-------------------------------------------tabs----------------------------->
+<!--<div style="display: flex;height: 100%;">
+  <mat-card class="dashboard-card" style="flex: 1 1 auto;">
+    <mat-card-header>
+      <mat-card-title>Overview South Africa</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-tab-group mat-align-tabs="center">
+        <mat-tab label="Overall" class="dashboard-card-content">
+          <hr>
+<div class="flex">
+  <div class="flex-item">
+    <div style="display: block">
+      <canvas baseChart width="400" height="400"
+              [labels]="doughnutChartLabels"
+              [datasets]="demodoughnutChartData2"
+              [chartType]="doughnutChartType"
+              [colors]="doughnutChartColors"
+              [options]="options"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
     </div>
-    <!--</mat-tab>
-      <mat-tab label="Gauteng">
-        Gauteng
-      </mat-tab>
-      <mat-tab label="Western Cape">Western Cape</mat-tab>
-      <mat-tab label="Kwa Zulu/Natal">Kwa Zulu/Natal</mat-tab>
-    </mat-tab-group>-->
-  </mat-card-content>
-</mat-card>
+
+    <pre>{{demodoughnutChartData2|json}}</pre>
+  </div>
+</div>
+<</mat-tab>
+<mat-tab label="Gauteng">
+  Gauteng
+</mat-tab>
+<mat-tab label="Western Cape">Western Cape</mat-tab>
+<mat-tab label="Kwa Zulu/Natal">Kwa Zulu/Natal</mat-tab>
+</mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</div>-->

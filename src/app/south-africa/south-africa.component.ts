@@ -1,9 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { forkJoin } from 'rxjs';
-import { ChartDataSets, ChartType } from 'chart.js';
+import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { QedCovidService } from '../services/qed-covid.service';
 import { DatePipe } from '@angular/common';
-import { BaseChartDirective, Color } from 'ng2-charts';
+import { Color, Label, SingleDataSet } from 'ng2-charts';
+
+export interface Tile {
+  // color: string;
+  cols: number;
+  rows: number;
+  text: string;
+}
+
+/**
+ * @title Dynamic grid-list
+ */
 
 @Component({
   selector: 'south-africa',
@@ -11,6 +22,13 @@ import { BaseChartDirective, Color } from 'ng2-charts';
   styleUrls: ['./south-africa.component.css']
 })
 export class SouthAfricaComponent implements OnInit {
+
+  tiles: Tile[] = [
+    { text: 'Critical', cols: 1, rows: 1/*, color: 'lightblue'*/ },
+    { text: 'Active', cols: 1, rows: 1/*, color: 'lightgreen' */ },
+    { text: 'Deaths', cols: 1, rows: 1/*, color: 'lightpink' */ },
+    { text: 'Tests', cols: 1, rows: 1/*, color: '#DDBDF1' */ },
+  ];
 
   type = 'line';
   data = {
@@ -43,10 +61,10 @@ export class SouthAfricaComponent implements OnInit {
   public doughnutChartLabels: string[] = [];// ['Age 18 to 24', 'Age 25 to 35', 'Above 35+'];
   public demodoughnutChartData: number[] = [];// [[350, 450, 100], [250, 350, 150], [0, 100, 150]];
   public demodoughnutChartData2: ChartDataSets[] = [
-    { data: [], label: 'South Africa' },
-    { data: [], label: 'Gauteng' },
-    { data: [], label: 'KZN' },
-    { data: [], label: 'Western Cape' }
+    { data: [], label: 'New Cases ' },
+    { data: [], label: 'Deaths' },
+    // { data: [], label: 'KZN' },
+    // { data: [], label: 'Western Cape' }
 
   ];
   public doughnutChartType: ChartType = 'line';
@@ -66,24 +84,25 @@ export class SouthAfricaComponent implements OnInit {
     pointBorderColor: '#fff',
     pointHoverBackgroundColor: '#fff',
     pointHoverBorderColor: 'rgba(0,114,187,0.8)'
-  }, {
-    // purple 147,112,219
-    backgroundColor: 'rgba(147,112,219,0.2)',
-    borderColor: 'rgba(147,112,219,1)',
-    pointBackgroundColor: 'rgba(147,112,219,1)',
-    pointBorderColor: '#fff',
-    pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: 'rgba(147,112,219,0.8)'
-  }, {
-    // green
-    backgroundColor: 'rgba(202,255,112,0.2)',
-    borderColor: 'rgba(202,255,112,1)',
-    pointBackgroundColor: 'rgba(202,255,112,1)',
-    pointBorderColor: '#fff',
-    pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: 'rgba(202,255,112,0.8)'
-
   }
+    //  , {
+    //  // purple 147,112,219
+    //  backgroundColor: 'rgba(147,112,219,0.2)',
+    //  borderColor: 'rgba(147,112,219,1)',
+    //  pointBackgroundColor: 'rgba(147,112,219,1)',
+    //  pointBorderColor: '#fff',
+    //  pointHoverBackgroundColor: '#fff',
+    //  pointHoverBorderColor: 'rgba(147,112,219,0.8)'
+    //}, {
+    //  // green
+    //  backgroundColor: 'rgba(202,255,112,0.2)',
+    //  borderColor: 'rgba(202,255,112,1)',
+    //  pointBackgroundColor: 'rgba(202,255,112,1)',
+    //  pointBorderColor: '#fff',
+    //  pointHoverBackgroundColor: '#fff',
+    //  pointHoverBorderColor: 'rgba(202,255,112,0.8)'
+
+    //  }
   ];
 
   gautengCovidData: any = [];
@@ -115,15 +134,27 @@ export class SouthAfricaComponent implements OnInit {
         // this.data
         for (var i = 0; i < overAllDateList.length; i++) {
           const getCaseDay = this.qedCovidService.dailyReportByCountryName['south-africa'].find((x: any) => x.day === overAllDateList[i]);
-          const convertCaseToNumberArray = getCaseDay.cases.new.split('+');
-          const caseToNumber = Number(convertCaseToNumberArray[1]);
-          // this.data.datasets[0].data.push(caseToNumber);
-          const todaysDateLable = new Date(overAllDateList[i]);
-          const todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
+          let convertCaseToNumberArray = getCaseDay.cases.new.split('+');
+
+          let caseToNumber = Number(convertCaseToNumberArray[1]);
+          let todaysDateLable = new Date(overAllDateList[i]);
+          let todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
           // this.data.labels.push(todaysDateLableConverted);
           this.demodoughnutChartData.push(caseToNumber!);
           this.doughnutChartLabels.push(todaysDateLableConverted!);
           this.demodoughnutChartData2[0].data?.push(caseToNumber);
+
+          // deaths
+          convertCaseToNumberArray = getCaseDay.deaths.new.split('+');
+          caseToNumber = Number(convertCaseToNumberArray[1]);
+          todaysDateLable = new Date(overAllDateList[i]);
+
+          todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
+          // this.data.labels.push(todaysDateLableConverted);
+          // this.demodoughnutChartData.push(caseToNumber!);
+          // this.doughnutChartLabels.push(todaysDateLableConverted!);
+          this.demodoughnutChartData2[1].data?.push(caseToNumber);
+
         }
         // Provice DATA
         const gautengCovidDataHolder = [];
@@ -136,6 +167,7 @@ export class SouthAfricaComponent implements OnInit {
         }
         let diffVal: number;
         // gauteng
+        let totalHolder = [];
         for (let i = 0; i < gautengCovidDataHolder.length; i++) {
           if (i !== 0) {
             diffVal = (gautengCovidDataHolder[i + 1]) - gautengCovidDataHolder[i];
@@ -143,15 +175,19 @@ export class SouthAfricaComponent implements OnInit {
             diffVal = (gautengCovidDataHolder[1]) - gautengCovidDataHolder[i];
           }
           if (diffVal) {
-            this.demodoughnutChartData2[1].data?.push(diffVal);
+            totalHolder.push(diffVal);
+            // this.demodoughnutChartData2[1].data?.push(diffVal);
 
             // manuelly get date and set cause of USA format
-            const todaysDateLable = this.doDate(gautengData[i].date);
-            const todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
-            this.data.labels.push(todaysDateLableConverted);
+            // const todaysDateLable = this.doDate(gautengData[i].date);
+            // const todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
+            // this.data.labels.push(todaysDateLableConverted);
           }
         }
-        // kzn
+        let gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        this.pieChartLabels.push('Gauteng');
+        this.pieChartData.push(gauTotal);
+        //  // kzn
         for (let i = 0; i < kznCovidDataHolder.length; i++) {
           if (i !== 0) {
             diffVal = (kznCovidDataHolder[i + 1]) - kznCovidDataHolder[i];
@@ -159,15 +195,21 @@ export class SouthAfricaComponent implements OnInit {
             diffVal = (kznCovidDataHolder[1]) - kznCovidDataHolder[i];
           }
           if (diffVal) {
-            this.demodoughnutChartData2[2].data?.push(diffVal);
+            totalHolder.push(diffVal);
 
-            // manuelly get date and set cause of USA format
-            const todaysDateLable = this.doDate(gautengData[i].date);
-            const todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
-            this.data.labels.push(todaysDateLableConverted);
+            //this.demodoughnutChartData2[2].data?.push(diffVal);
+
+            //// manuelly get date and set cause of USA format
+            //const todaysDateLable = this.doDate(gautengData[i].date);
+            //const todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
+            //this.data.labels.push(todaysDateLableConverted);
           }
         }
-        // western cape
+        gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        this.pieChartLabels.push('Kwa-Zulu/Natal');
+        this.pieChartData.push(gauTotal);
+
+        //  // western cape
         for (let i = 0; i < westernCapeDataHolder.length; i++) {
           if (i !== 0) {
             diffVal = (westernCapeDataHolder[i + 1]) - westernCapeDataHolder[i];
@@ -175,20 +217,36 @@ export class SouthAfricaComponent implements OnInit {
             diffVal = (westernCapeDataHolder[1]) - westernCapeDataHolder[i];
           }
           if (diffVal) {
-            this.demodoughnutChartData2[3].data?.push(diffVal);
+            totalHolder.push(diffVal);
+
+            // this.demodoughnutChartData2[3].data?.push(diffVal);
 
             // manuelly get date and set cause of USA format
-            const todaysDateLable = this.doDate(gautengData[i].date);
-            const todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
-            this.data.labels.push(todaysDateLableConverted);
+            //  const todaysDateLable = this.doDate(gautengData[i].date);
+            //  const todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
+            //  this.data.labels.push(todaysDateLableConverted);
           }
         }
+        gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        this.pieChartLabels.push('Western Cape');
+        this.pieChartData.push(gauTotal);
+
         console.log(this.demodoughnutChartData2);
       }, function (err: any) {
         console.log(err);
       });
 
   }
+
+  public pieChartOptions: ChartOptions = {
+    responsive: true,
+  };
+  public pieChartLabels: Label[] = [];
+  public pieChartData: SingleDataSet = [];
+  public pieChartType: ChartType = 'pie';
+  public pieChartLegend = true;
+  public pieChartPlugins = [];
+
 
   doDate(date: any) {
     try {
