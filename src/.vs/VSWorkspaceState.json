@@ -2,10 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\app",
-    "\\app\\new-cases",
-    "\\app\\services",
+    "\\app\\home",
     "\\app\\south-africa"
   ],
-  "SelectedNode": "\\app\\south-africa\\south-africa.component.ts",
+  "SelectedNode": "\\app\\home\\home.component.ts",
   "PreviewInSolutionExplorer": false
 }

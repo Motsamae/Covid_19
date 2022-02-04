@@ -17,10 +17,12 @@ import { ChartModule } from 'angular2-chartjs';
 import { ChartsModule, ThemeService } from 'ng2-charts';
 import { SouthAfricaComponent } from './south-africa/south-africa.component';
 import { DatePipe } from '@angular/common';
+import { HomeComponent } from './home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SouthAfricaComponent
+    SouthAfricaComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

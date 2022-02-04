@@ -1,25 +1,29 @@
 <mat-card class="dashboard-card">
+  <mat-card-header>
+    <mat-card-title>Overview South Africa</mat-card-title>
+  </mat-card-header>
+
   <mat-card-content>
     <!--<mat-tab-group mat-align-tabs="center">
       <mat-tab label="Overall" class="dashboard-card-content">
         <hr>-->
-        <div class="flex">
-          <div class="flex-item">
-            <div style="display: block">
-              <canvas baseChart width="400" height="400"
-                      [labels]="doughnutChartLabels"
-                      [datasets]="demodoughnutChartData2"
-                      [chartType]="doughnutChartType"
-                      [colors]="doughnutChartColors"
-                      [options]="options"
-                      (chartHover)="chartHovered($event)"
-                      (chartClick)="chartClicked($event)"></canvas>
-            </div>
-
-            <!--<pre>{{demodoughnutChartData2|json}}</pre>-->
-          </div>
+    <div class="flex">
+      <div class="flex-item">
+        <div style="display: block">
+          <canvas baseChart width="400" height="400"
+                  [labels]="doughnutChartLabels"
+                  [datasets]="demodoughnutChartData2"
+                  [chartType]="doughnutChartType"
+                  [colors]="doughnutChartColors"
+                  [options]="options"
+                  (chartHover)="chartHovered($event)"
+                  (chartClick)="chartClicked($event)"></canvas>
         </div>
-      <!--</mat-tab>
+
+        <!--<pre>{{demodoughnutChartData2|json}}</pre>-->
+      </div>
+    </div>
+    <!--</mat-tab>
       <mat-tab label="Gauteng">
         Gauteng
       </mat-tab>

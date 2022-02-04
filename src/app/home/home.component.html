@@ -1,0 +1,53 @@
+<div style="display: flex;
+/*    align-items: stretch;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;*/
+    height: 100%;">
+
+  <mat-card style="flex: 1 1 auto;">
+    <mat-card-header>
+      <mat-card-title>Pie</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="flex">
+        <div class="flex-item">
+          <div style="display: block">
+
+            <canvas baseChart 
+                    [datasets]="barChartData"
+                    [labels]="barChartLabels"
+                    [options]="barChartOptions"
+                    [colors]="barChartColors"
+                    [legend]="barChartLegend"
+                    [chartType]="barChartType">
+            </canvas>
+
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card style="flex: 1 1 auto;">
+    <mat-card-header>
+      <mat-card-title>Bar</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="flex">
+        <div class="flex-item">
+          <div style="display: block">
+
+            <canvas baseChart 
+                    [data]="pieChartData"
+                    [labels]="pieChartLabels"
+                    [chartType]="pieChartType"
+                    [options]="pieChartOptions"
+                    [plugins]="pieChartPlugins"
+                    [legend]="pieChartLegend">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
