@@ -154,8 +154,12 @@ export class SouthAfricaComponent implements OnInit {
           // this.demodoughnutChartData.push(caseToNumber!);
           // this.doughnutChartLabels.push(todaysDateLableConverted!);
           this.demodoughnutChartData2[1].data?.push(caseToNumber);
-
         }
+        this.tiles[0].text = this.tiles[0].text + ' :' + this.qedCovidService.dailyReportByCountryName['south-africa'][0].cases.critical;
+        this.tiles[1].text = this.tiles[1].text + ' :' + this.qedCovidService.dailyReportByCountryName['south-africa'][0].cases.active;
+        this.tiles[2].text = this.tiles[2].text + ' :' + this.qedCovidService.dailyReportByCountryName['south-africa'][0].deaths.total;
+        this.tiles[3].text = this.tiles[3].text + ' :' + this.qedCovidService.dailyReportByCountryName['south-africa'][0].tests.total;
+
         // Provice DATA
         const gautengCovidDataHolder = [];
         const kznCovidDataHolder = []
