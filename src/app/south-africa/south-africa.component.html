@@ -57,44 +57,46 @@
     </mat-card>
   </div>
 </div>
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Other provinces</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <table mat-table matSort aria-label="Elements"
-           [dataSource]="dataSource" class="mat-elevation-z8 full-width-table">
-      <!--- Note that these columns can be defined in any order.
-      The actual rendered columns are set as a property on the row definition" -->
-      <!-- Position Column -->
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-      </ng-container>
+<div style="padding-top:0.5rem">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Other provinces</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table matSort aria-label="Elements"
+             [dataSource]="dataSource" class="mat-elevation-z8 full-width-table">
+        <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="province">
-        <th mat-header-cell *matHeaderCellDef> Psrovince </th>
-        <td mat-cell *matCellDef="let element"> {{element.province}} </td>
-      </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="province">
+          <th mat-header-cell *matHeaderCellDef> Psrovince </th>
+          <td mat-cell *matCellDef="let element"> {{element.province}} </td>
+        </ng-container>
 
-      <!-- Weight Column -->
-      <ng-container matColumnDef="sevenDayPeriod">
-        <th mat-header-cell *matHeaderCellDef> Seven Day Period </th>
-        <td mat-cell *matCellDef="let element"> {{element.sevenDayPeriod}} </td>
-      </ng-container>
+        <!-- Weight Column -->
+        <ng-container matColumnDef="sevenDayPeriod">
+          <th mat-header-cell *matHeaderCellDef> Seven Day Period </th>
+          <td mat-cell *matCellDef="let element"> {{element.sevenDayPeriod}} </td>
+        </ng-container>
 
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="cumulative">
-        <th mat-header-cell *matHeaderCellDef> Cumulative </th>
-        <td mat-cell *matCellDef="let element"> {{element.cumulative}} </td>
-      </ng-container>
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="cumulative">
+          <th mat-header-cell *matHeaderCellDef> Cumulative </th>
+          <td mat-cell *matCellDef="let element"> {{element.cumulative}} </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </mat-card-content>
-</mat-card>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>
 <!-------------------------------------------tabs----------------------------->
 <!--<div style="display: flex;height: 100%;">
   <mat-card class="dashboard-card" style="flex: 1 1 auto;">

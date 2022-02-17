@@ -32,14 +32,14 @@ export class SouthAfricaComponent implements OnInit {
 
   type = 'line';
   data = {
-    labels: new Array<string>(),// ["January", "February", "March", "April", "May", "June", "July"],
+    labels: new Array<string>(),
     datasets: [
       {
         label: "South Africa",
-        data: new Array<number>()// [65, 59, 80, 81, 56, 55, 40]
+        data: new Array<number>()
       }, {
         label: "Gauteng",
-        data: new Array<number>()// [65, 59, 80, 81, 56, 55, 40]
+        data: new Array<number>()
       },
     ]
   };
@@ -54,17 +54,14 @@ export class SouthAfricaComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.getDailyReportByCountryNameAndDate();
   }
 
-  public doughnutChartLabels: string[] = [];// ['Age 18 to 24', 'Age 25 to 35', 'Above 35+'];
-  public demodoughnutChartData: number[] = [];// [[350, 450, 100], [250, 350, 150], [0, 100, 150]];
+  public doughnutChartLabels: string[] = [];
+  public demodoughnutChartData: number[] = [];
   public demodoughnutChartData2: ChartDataSets[] = [
     { data: [], label: 'New Cases ' },
     { data: [], label: 'Deaths' },
-    // { data: [], label: 'KZN' },
-    // { data: [], label: 'Western Cape' }
 
   ];
   public doughnutChartType: ChartType = 'line';
@@ -85,24 +82,6 @@ export class SouthAfricaComponent implements OnInit {
     pointHoverBackgroundColor: '#fff',
     pointHoverBorderColor: 'rgba(0,114,187,0.8)'
   }
-    //  , {
-    //  // purple 147,112,219
-    //  backgroundColor: 'rgba(147,112,219,0.2)',
-    //  borderColor: 'rgba(147,112,219,1)',
-    //  pointBackgroundColor: 'rgba(147,112,219,1)',
-    //  pointBorderColor: '#fff',
-    //  pointHoverBackgroundColor: '#fff',
-    //  pointHoverBorderColor: 'rgba(147,112,219,0.8)'
-    //}, {
-    //  // green
-    //  backgroundColor: 'rgba(202,255,112,0.2)',
-    //  borderColor: 'rgba(202,255,112,1)',
-    //  pointBackgroundColor: 'rgba(202,255,112,1)',
-    //  pointBorderColor: '#fff',
-    //  pointHoverBackgroundColor: '#fff',
-    //  pointHoverBorderColor: 'rgba(202,255,112,0.8)'
-
-    //  }
   ];
 
   gautengCovidData: any = [];
@@ -123,7 +102,6 @@ export class SouthAfricaComponent implements OnInit {
       const todaysDateIso = todaysDate.toISOString().substring(0, 10);
       overAllDateList.push(todaysDateIso);
     }
-    console.log(overAllDateList);
     forkJoin(this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[0]), this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[1]),
       this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[2]), this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[3]),
       this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[4]), this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[5]),
@@ -152,9 +130,6 @@ export class SouthAfricaComponent implements OnInit {
             todaysDateLable = new Date(overAllDateList[i]);
 
             todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
-            // this.data.labels.push(todaysDateLableConverted);
-            // this.demodoughnutChartData.push(caseToNumber!);
-            // this.doughnutChartLabels.push(todaysDateLableConverted!);
             this.demodoughnutChartData2[1].data?.push(caseToNumber);
 
           } else {
@@ -208,6 +183,7 @@ export class SouthAfricaComponent implements OnInit {
           }
         }
         let gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        totalHolder = []
         this.pieChartLabels.push('Gauteng');
         this.pieChartData.push(gauTotal);
         //  // kzn
@@ -223,6 +199,7 @@ export class SouthAfricaComponent implements OnInit {
           }
         }
         gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        totalHolder = []
         this.pieChartLabels.push('Kwa-Zulu/Natal');
         this.pieChartData.push(gauTotal);
 
@@ -239,6 +216,7 @@ export class SouthAfricaComponent implements OnInit {
           }
         }
         gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        totalHolder = []
         this.pieChartLabels.push('Western Cape');
         this.pieChartData.push(gauTotal);
 
@@ -255,6 +233,7 @@ export class SouthAfricaComponent implements OnInit {
           }
         }
         gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        totalHolder = []
         this.dataSource = [];
         let cumulative = gautengData[7].provinces.eastern_cape;
         this.dataSource.push({
@@ -277,7 +256,8 @@ export class SouthAfricaComponent implements OnInit {
           }
         }
         gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
-        cumulative = gautengData[7].provinces.northen_cape;
+        totalHolder = []
+        cumulative = gautengData[7].provinces.northern_cape;
         this.dataSource.push({
           position: 2,
           province: 'Northern Cape',
@@ -286,7 +266,7 @@ export class SouthAfricaComponent implements OnInit {
         });
 
         //
-        // Northern Cape
+        // limpopo
         for (let i = 0; i < limpopoCapeDataHolder.length; i++) {
           if (i !== 0) {
             diffVal = (limpopoCapeDataHolder[i + 1]) - limpopoCapeDataHolder[i];
@@ -298,6 +278,7 @@ export class SouthAfricaComponent implements OnInit {
           }
         }
         gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        totalHolder = [];
         cumulative = gautengData[7].provinces.limpopo;
         this.dataSource.push({
           position: 3,
@@ -318,6 +299,7 @@ export class SouthAfricaComponent implements OnInit {
           }
         }
         gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        totalHolder = [];
         cumulative = gautengData[7].provinces.north_west;
         this.dataSource.push({
           position: 4,
@@ -338,6 +320,7 @@ export class SouthAfricaComponent implements OnInit {
           }
         }
         gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        totalHolder = [];
         cumulative = gautengData[7].provinces.mpumlanga;
         this.dataSource.push({
           position: 5,
@@ -358,6 +341,7 @@ export class SouthAfricaComponent implements OnInit {
           }
         }
         gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        totalHolder = [];
         cumulative = gautengData[7].provinces.free_state;
         this.dataSource.push({
           position: 6,
@@ -365,10 +349,6 @@ export class SouthAfricaComponent implements OnInit {
           sevenDayPeriod: gauTotal,
           cumulative: cumulative
         });
-
-        console.log(this.dataSource);
-
-        console.log(this.demodoughnutChartData2);
       }, function (err: any) {
         console.log(err);
       });
