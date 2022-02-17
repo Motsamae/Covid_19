@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label, SingleDataSet } from 'ng2-charts';
@@ -13,13 +14,14 @@ export class HomeComponent implements OnInit {
 
   public barChartOptions: ChartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
   };
-  public barChartLabels: Label[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  public barChartLabels: Label[] = [];// ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
 
   public barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
+    { data: [], label: 'Hospitilisation' },
     { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
   ];
 
@@ -28,7 +30,7 @@ export class HomeComponent implements OnInit {
     { backgroundColor: '#6610f2' },
   ]
 
-  constructor(private qedCovidService: QedCovidService) {
+  constructor(private qedCovidService: QedCovidService, public datepipe: DatePipe) {
     console.log('On Load...');
   }
 
@@ -38,10 +40,13 @@ export class HomeComponent implements OnInit {
 
   getDailyReportByTestsAndHospitalasationAndDate() {
     const overAllDateList: string[] = []
-    for (var i = 0; i < 7; i++) {
+
+    // for (i = timer; i < 1; i–) { console.log(i); }
+    for (var i = 8; i > -1; i--) {
       const todaysDate = new Date();
       todaysDate.setDate(todaysDate.getDate() - i);
-      const todaysDateIso = todaysDate.toISOString().substring(0, 10);
+      // const x = this.datepipe.transform(todaysDate, 'dd-MM-yyyy') || '';
+      const todaysDateIso = this.datepipe.transform(todaysDate, 'dd-MM-yyyy') || '';;// todaysDate.toISOString().substring(0, 10);
       overAllDateList.push(todaysDateIso);
     }
 
@@ -51,20 +56,41 @@ export class HomeComponent implements OnInit {
       this.qedCovidService.getDailyReportForCountry(overAllDateList[3]),
       this.qedCovidService.getDailyReportForCountry(overAllDateList[4]),
       this.qedCovidService.getDailyReportForCountry(overAllDateList[5]),
-      this.qedCovidService.getDailyReportForCountry(overAllDateList[6]),
-      this.qedCovidService.getDailyReportForProvinces()).subscribe(([dayOne, dayTwo, dayThree, dayFour, dayFive, daySix, daySeven]:
-        [any, any, any, any, any, any, any]) => {
+      this.qedCovidService.getDailyReportForCountry(overAllDateList[6])).subscribe((
+        [dayOne, dayTwo, dayThree, dayFour, dayFive, daySix, daySeven]:
+          [any, any, any, any, any, any, any]) => {
         console.log(dayOne);
-        console.log(dayTwo);
-        console.log(dayThree);
-        console.log(dayFour);
-        console.log(dayFive);
-        console.log(daySix);
-        console.log(daySeven);
-        //for (var i = 0; i < overAllDateList.length; i++) {
-        //  if (this.qedCovidService.dailyReportByCountryName['south-africa'][i]) {
-        //  }
-        //}
+        const hospitilasationCovidDataHolder = [];
+        const tests = [];
+        for (var i = 0; i < dayOne.length; i++) {
+          if (dayOne[i]) {
+            const getCaseDay = dayOne.find((x: any) => x.date === overAllDateList[i]);
+            hospitilasationCovidDataHolder.push(Number(getCaseDay.hospitalisation));
+            tests.push(Number(getCaseDay.cumulative_tests));
+            this.barChartLabels.push(overAllDateList[i]);
+
+          } else {
+            this.barChartLabels.push(overAllDateList[i]);
+            hospitilasationCovidDataHolder.push(0);
+            tests.push(0);
+          }
+        }
+        let diffVal: number;
+        let totalHolder = [];
+        for (let i = 0; i < hospitilasationCovidDataHolder.length; i++) {
+          if (i !== 0) {
+            diffVal = (hospitilasationCovidDataHolder[i + 1]) - hospitilasationCovidDataHolder[i];
+          } else {
+            diffVal = (hospitilasationCovidDataHolder[1]) - hospitilasationCovidDataHolder[i];
+          }
+          if (diffVal) {
+            totalHolder.push(diffVal);
+          }
+        }
+        // let gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        this.barChartData[0].data = totalHolder;
+        totalHolder = [];
+        console.log(this.barChartData[0]);
       }, function (err: any) {
         console.log(err);
       });

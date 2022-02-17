@@ -1,9 +1,9 @@
-<div style="display: flex;
-/*    align-items: stretch;
+<div style="    display: flex;
+    /*    align-items: stretch;
     flex-direction: column;
     align-items: center;
-    justify-content: center;*/
-    height: 100%;">
+    justify-content: center;*/ height: 100%;"
+     >
 
   <mat-card style="flex: 1 1 auto;">
     <mat-card-header>
@@ -12,9 +12,9 @@
     <mat-card-content>
       <div class="flex">
         <div class="flex-item">
-          <div style="display: block">
+          <div style="display: block;height: 50%">
 
-            <canvas baseChart 
+            <canvas baseChart width="400" height="400"
                     [datasets]="barChartData"
                     [labels]="barChartLabels"
                     [options]="barChartOptions"
@@ -28,7 +28,7 @@
       </div>
     </mat-card-content>
   </mat-card>
-  <mat-card style="flex: 1 1 auto;">
+  <!--<mat-card style="flex: 1 1 auto;">
     <mat-card-header>
       <mat-card-title>Top 3 Provinces</mat-card-title>
     </mat-card-header>
@@ -49,5 +49,5 @@
         </div>
       </div>
     </mat-card-content>
-  </mat-card>
+  </mat-card>-->
 </div>

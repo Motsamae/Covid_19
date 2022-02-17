@@ -49,7 +49,7 @@ export class QedCovidService {
   getDailyReportForCountry(date: any): any {
     return this.http.get('https://covid-za-api.herokuapp.com/cases/timeline/tests').pipe(
       map((res: any) => {
-        return res.splice(-8);
+        return res.splice(-9);
       }), catchError(err => {
         throw new Error(err);
       }));
