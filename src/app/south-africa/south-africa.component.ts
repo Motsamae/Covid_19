@@ -133,27 +133,39 @@ export class SouthAfricaComponent implements OnInit {
         // separate the days data to get labels
         // this.data
         for (var i = 0; i < overAllDateList.length; i++) {
-          const getCaseDay = this.qedCovidService.dailyReportByCountryName['south-africa'].find((x: any) => x.day === overAllDateList[i]);
-          let convertCaseToNumberArray = getCaseDay.cases.new.split('+');
 
-          let caseToNumber = Number(convertCaseToNumberArray[1]);
-          let todaysDateLable = new Date(overAllDateList[i]);
-          let todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
-          // this.data.labels.push(todaysDateLableConverted);
-          this.demodoughnutChartData.push(caseToNumber!);
-          this.doughnutChartLabels.push(todaysDateLableConverted!);
-          this.demodoughnutChartData2[0].data?.push(caseToNumber);
+          if (this.qedCovidService.dailyReportByCountryName['south-africa'][i]) {
+            const getCaseDay = this.qedCovidService.dailyReportByCountryName['south-africa'].find((x: any) => x.day === overAllDateList[i]);
+            let convertCaseToNumberArray = getCaseDay.cases.new.split('+');
 
-          // deaths
-          convertCaseToNumberArray = getCaseDay.deaths.new.split('+');
-          caseToNumber = Number(convertCaseToNumberArray[1]);
-          todaysDateLable = new Date(overAllDateList[i]);
+            let caseToNumber = Number(convertCaseToNumberArray[1]);
+            let todaysDateLable = new Date(overAllDateList[i]);
+            let todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
+            // this.data.labels.push(todaysDateLableConverted);
+            this.demodoughnutChartData.push(caseToNumber!);
+            this.doughnutChartLabels.push(todaysDateLableConverted!);
+            this.demodoughnutChartData2[0].data?.push(caseToNumber);
 
-          todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
-          // this.data.labels.push(todaysDateLableConverted);
-          // this.demodoughnutChartData.push(caseToNumber!);
-          // this.doughnutChartLabels.push(todaysDateLableConverted!);
-          this.demodoughnutChartData2[1].data?.push(caseToNumber);
+            // deaths
+            convertCaseToNumberArray = getCaseDay.deaths.new.split('+');
+            caseToNumber = Number(convertCaseToNumberArray[1]);
+            todaysDateLable = new Date(overAllDateList[i]);
+
+            todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
+            // this.data.labels.push(todaysDateLableConverted);
+            // this.demodoughnutChartData.push(caseToNumber!);
+            // this.doughnutChartLabels.push(todaysDateLableConverted!);
+            this.demodoughnutChartData2[1].data?.push(caseToNumber);
+
+          } else {
+            let todaysDateLable = new Date(overAllDateList[i]);
+
+            let todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
+            this.demodoughnutChartData.push(0);
+            this.doughnutChartLabels.push(todaysDateLableConverted!);
+            this.demodoughnutChartData2[1].data?.push(0);
+
+          }
         }
         this.tiles[0].text = this.tiles[0].text + ' :' + this.qedCovidService.dailyReportByCountryName['south-africa'][0].cases.critical;
         this.tiles[1].text = this.tiles[1].text + ' :' + this.qedCovidService.dailyReportByCountryName['south-africa'][0].cases.active;
@@ -164,10 +176,23 @@ export class SouthAfricaComponent implements OnInit {
         const gautengCovidDataHolder = [];
         const kznCovidDataHolder = []
         const westernCapeDataHolder = [];
+        const easternCapeCovidDataHolder = [];
+        const northenCapeCovidDataHolder = []
+        const limpopoCapeDataHolder = [];
+        const northWestCovidDataHolder = [];
+        const mpumalangaCovidDataHolder = []
+        const freeStateDataHolder = [];
         for (let i = 0; i < gautengData.length; i++) {
           gautengCovidDataHolder.push(Number(gautengData[i].provinces.gauteng));
           kznCovidDataHolder.push(Number(gautengData[i].provinces.kwazulu_natal));
           westernCapeDataHolder.push(Number(gautengData[i].provinces.western_cape));
+
+          easternCapeCovidDataHolder.push(Number(gautengData[i].provinces.eastern_cape));
+          northenCapeCovidDataHolder.push(Number(gautengData[i].provinces.northern_cape));
+          limpopoCapeDataHolder.push(Number(gautengData[i].provinces.limpopo));
+          northWestCovidDataHolder.push(Number(gautengData[i].provinces.north_west));
+          mpumalangaCovidDataHolder.push(Number(gautengData[i].provinces.mpumlanga));
+          freeStateDataHolder.push(Number(gautengData[i].provinces.free_state));
         }
         let diffVal: number;
         // gauteng
@@ -180,12 +205,6 @@ export class SouthAfricaComponent implements OnInit {
           }
           if (diffVal) {
             totalHolder.push(diffVal);
-            // this.demodoughnutChartData2[1].data?.push(diffVal);
-
-            // manuelly get date and set cause of USA format
-            // const todaysDateLable = this.doDate(gautengData[i].date);
-            // const todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
-            // this.data.labels.push(todaysDateLableConverted);
           }
         }
         let gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
@@ -201,12 +220,6 @@ export class SouthAfricaComponent implements OnInit {
           if (diffVal) {
             totalHolder.push(diffVal);
 
-            //this.demodoughnutChartData2[2].data?.push(diffVal);
-
-            //// manuelly get date and set cause of USA format
-            //const todaysDateLable = this.doDate(gautengData[i].date);
-            //const todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
-            //this.data.labels.push(todaysDateLableConverted);
           }
         }
         gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
@@ -223,17 +236,137 @@ export class SouthAfricaComponent implements OnInit {
           if (diffVal) {
             totalHolder.push(diffVal);
 
-            // this.demodoughnutChartData2[3].data?.push(diffVal);
-
-            // manuelly get date and set cause of USA format
-            //  const todaysDateLable = this.doDate(gautengData[i].date);
-            //  const todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
-            //  this.data.labels.push(todaysDateLableConverted);
           }
         }
         gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
         this.pieChartLabels.push('Western Cape');
         this.pieChartData.push(gauTotal);
+
+        // Eastern Cape
+        for (let i = 0; i < easternCapeCovidDataHolder.length; i++) {
+          if (i !== 0) {
+            diffVal = (easternCapeCovidDataHolder[i + 1]) - easternCapeCovidDataHolder[i];
+          } else {
+            diffVal = (easternCapeCovidDataHolder[1]) - easternCapeCovidDataHolder[i];
+          }
+          if (diffVal) {
+            totalHolder.push(diffVal);
+
+          }
+        }
+        gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        this.dataSource = [];
+        let cumulative = gautengData[7].provinces.eastern_cape;
+        this.dataSource.push({
+          position: 1,
+          province: 'Eastern Cape',
+          sevenDayPeriod: gauTotal,
+          cumulative: cumulative
+        });
+
+        // Northern Cape
+        for (let i = 0; i < northenCapeCovidDataHolder.length; i++) {
+          if (i !== 0) {
+            diffVal = (northenCapeCovidDataHolder[i + 1]) - northenCapeCovidDataHolder[i];
+          } else {
+            diffVal = (northenCapeCovidDataHolder[1]) - northenCapeCovidDataHolder[i];
+          }
+          if (diffVal) {
+            totalHolder.push(diffVal);
+
+          }
+        }
+        gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        cumulative = gautengData[7].provinces.northen_cape;
+        this.dataSource.push({
+          position: 2,
+          province: 'Northern Cape',
+          sevenDayPeriod: gauTotal,
+          cumulative: cumulative
+        });
+
+        //
+        // Northern Cape
+        for (let i = 0; i < limpopoCapeDataHolder.length; i++) {
+          if (i !== 0) {
+            diffVal = (limpopoCapeDataHolder[i + 1]) - limpopoCapeDataHolder[i];
+          } else {
+            diffVal = (limpopoCapeDataHolder[1]) - limpopoCapeDataHolder[i];
+          }
+          if (diffVal) {
+            totalHolder.push(diffVal);
+          }
+        }
+        gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        cumulative = gautengData[7].provinces.limpopo;
+        this.dataSource.push({
+          position: 3,
+          province: 'Limpopo',
+          sevenDayPeriod: gauTotal,
+          cumulative: cumulative
+        });
+
+        // North West
+        for (let i = 0; i < northWestCovidDataHolder.length; i++) {
+          if (i !== 0) {
+            diffVal = (northWestCovidDataHolder[i + 1]) - northWestCovidDataHolder[i];
+          } else {
+            diffVal = (northWestCovidDataHolder[1]) - northWestCovidDataHolder[i];
+          }
+          if (diffVal) {
+            totalHolder.push(diffVal);
+          }
+        }
+        gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        cumulative = gautengData[7].provinces.north_west;
+        this.dataSource.push({
+          position: 4,
+          province: 'North West',
+          sevenDayPeriod: gauTotal,
+          cumulative: cumulative
+        });
+
+        // mpumlanga
+        for (let i = 0; i < mpumalangaCovidDataHolder.length; i++) {
+          if (i !== 0) {
+            diffVal = (mpumalangaCovidDataHolder[i + 1]) - mpumalangaCovidDataHolder[i];
+          } else {
+            diffVal = (mpumalangaCovidDataHolder[1]) - mpumalangaCovidDataHolder[i];
+          }
+          if (diffVal) {
+            totalHolder.push(diffVal);
+          }
+        }
+        gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        cumulative = gautengData[7].provinces.mpumlanga;
+        this.dataSource.push({
+          position: 5,
+          province: 'Mpumalanga',
+          sevenDayPeriod: gauTotal,
+          cumulative: cumulative
+        });
+
+        // free state
+        for (let i = 0; i < freeStateDataHolder.length; i++) {
+          if (i !== 0) {
+            diffVal = (freeStateDataHolder[i + 1]) - freeStateDataHolder[i];
+          } else {
+            diffVal = (freeStateDataHolder[1]) - freeStateDataHolder[i];
+          }
+          if (diffVal) {
+            totalHolder.push(diffVal);
+          }
+        }
+        gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        cumulative = gautengData[7].provinces.free_state;
+        this.dataSource.push({
+          position: 6,
+          province: 'Free State',
+          sevenDayPeriod: gauTotal,
+          cumulative: cumulative
+        });
+
+        console.log(this.dataSource);
 
         console.log(this.demodoughnutChartData2);
       }, function (err: any) {
@@ -241,7 +374,8 @@ export class SouthAfricaComponent implements OnInit {
       });
 
   }
-
+  displayedColumns: string[] = ['position', 'province', 'sevenDayPeriod', 'cumulative'];
+  dataSource: PeriodicElement[];
   public pieChartOptions: ChartOptions = {
     responsive: true,
   };
@@ -266,4 +400,10 @@ export class SouthAfricaComponent implements OnInit {
       return date;
     }
   }
+}
+export interface PeriodicElement {
+  province: string;
+  position: number;
+  sevenDayPeriod: number;
+  cumulative: number;
 }
