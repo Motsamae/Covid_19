@@ -1,9 +1,16 @@
+<!--<mat-grid-list cols="4" rowHeight="100px">
+  <mat-grid-tile *ngFor="let tile of tiles"
+                 [colspan]="tile.cols"
+                 [rowspan]="tile.rows">
+    [style.background]="tile.color"
+{{tile.text}}
+  </mat-grid-tile>
+</mat-grid-list>-->
 <div style="    display: flex;
     /*    align-items: stretch;
     flex-direction: column;
     align-items: center;
-    justify-content: center;*/ height: 100%;"
-     >
+    justify-content: center;*/ height: 100%;">
 
   <mat-card style="flex: 1 1 auto;">
     <mat-card-header>
@@ -37,7 +44,7 @@
         <div class="flex-item">
           <div style="display: block">
 
-            <canvas baseChart 
+            <canvas baseChart
                     [data]="pieChartData"
                     [labels]="pieChartLabels"
                     [chartType]="pieChartType"

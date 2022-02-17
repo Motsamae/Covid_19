@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
 
   public barChartData: ChartDataSets[] = [
     { data: [], label: 'Hospitilisation' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
+    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Tests' }
   ];
 
   public barChartColors: Color[] = [
@@ -90,6 +90,19 @@ export class HomeComponent implements OnInit {
         // let gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
         this.barChartData[0].data = totalHolder;
         totalHolder = [];
+        for (let i = 0; i < tests.length; i++) {
+          if (i !== 0) {
+            diffVal = (tests[i + 1]) - tests[i];
+          } else {
+            diffVal = (tests[1]) - tests[i];
+          }
+          if (diffVal) {
+            totalHolder.push(diffVal);
+          }
+        }
+        // let gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
+        this.barChartData[1].data = totalHolder;
+
         console.log(this.barChartData[0]);
       }, function (err: any) {
         console.log(err);
