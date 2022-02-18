@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: 'south-africa', component: SouthAfricaComponent },
   { path: 'home', component: HomeComponent },
 
-  { path: '', redirectTo: '/home', pathMatch: 'full' }
+  { path: '', redirectTo: '/south-africa', pathMatch: 'full' }
 ];
 @NgModule({
   imports: [
