@@ -3,16 +3,16 @@
     <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
       <mat-icon>menu</mat-icon>
     </button>
-    <span><a href="/home" mat-button>QED Covid</a></span>
+    <span><a [routerLink]="['/home']" mat-button>QED Covid</a></span>
     <span class="menu-spacer"></span>
     <div fxShow="true" fxHide.lt-md>
       <!-- The following menu items will be hidden on both SM and XS screen sizes -->
-      <a href="/south-africa" mat-button>South Africa</a>
-      <a href="/mauritius" mat-button>Mauritius</a>
-      <a href="/kenya" mat-button>Kenya</a>
-      <a href="/nigeria" mat-button>Nigeria</a>
-      <!--<a href="#" mat-button>Menu Item 5</a>
-      <a href="#" mat-button>Menu Item 6</a>-->
+      <a [routerLink]="['/south-africa']" mat-button>South Africa</a>
+      <a [routerLink]="['/mauritius']" mat-button>Mauritius</a>
+      <a [routerLink]="['/kenya']" mat-button>Kenya</a>
+      <a [routerLink]="['/nigeria']" mat-button>Nigeria</a>
+      <!--<a [routerLink]="#" mat-button>Menu Item 5</a>
+      <a [routerLink]="#" mat-button>Menu Item 6</a>-->
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
@@ -20,10 +20,10 @@
   <mat-sidenav #sidenav>
     <mat-nav-list>
       <a (click)="sidenav.toggle()" href="" mat-list-item>Close</a>
-      <a href="/south-africa" mat-button>South Africa</a><br />
-      <a href="/mauritius" mat-button>Mauritius</a><br />
-      <a href="/kenya" mat-button>Kenya</a><br />
-      <a href="/nigeria" mat-button>Nigeria</a><br />
+      <a [routerLink]="['/south-africa']" mat-button>South Africa</a><br />
+      <a [routerLink]="['/mauritius']" mat-button>Mauritius</a><br />
+      <a [routerLink]="['/kenya']" mat-button>Kenya</a><br />
+      <a [routerLink]="['/nigeria']" mat-button>Nigeria</a><br />
     </mat-nav-list>
   </mat-sidenav>
 

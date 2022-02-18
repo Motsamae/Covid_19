@@ -20,11 +20,17 @@ import { ChartsModule, ThemeService } from 'ng2-charts';
 import { SouthAfricaComponent } from './south-africa/south-africa.component';
 import { DatePipe } from '@angular/common';
 import { HomeComponent } from './home/home.component';
+import { NigeriaComponent } from './nigeria/nigeria.component';
+import { MauritiusComponent } from './mauritius/mauritius.component';
+import { KenyaComponent } from './kenya/kenya.component';
 @NgModule({
   declarations: [
     AppComponent,
     SouthAfricaComponent,
     HomeComponent,
+    NigeriaComponent,
+    MauritiusComponent,
+    KenyaComponent,
   ],
   imports: [
     BrowserModule,
