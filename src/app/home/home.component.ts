@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
   ]
 
   constructor(private qedCovidService: QedCovidService, public datepipe: DatePipe) {
-    console.log('On Load...');
+    // console.log('On Load...');
   }
 
   ngOnInit() {
@@ -59,16 +59,17 @@ export class HomeComponent implements OnInit {
       this.qedCovidService.getDailyReportForCountry(overAllDateList[6])).subscribe((
         [dayOne, dayTwo, dayThree, dayFour, dayFive, daySix, daySeven]:
           [any, any, any, any, any, any, any]) => {
-        console.log(dayOne);
         const hospitilasationCovidDataHolder = [];
         const tests = [];
         for (var i = 0; i < dayOne.length; i++) {
           if (dayOne[i]) {
             const getCaseDay = dayOne.find((x: any) => x.date === overAllDateList[i]);
-            hospitilasationCovidDataHolder.push(Number(getCaseDay.hospitalisation));
-            tests.push(Number(getCaseDay.cumulative_tests));
-            this.barChartLabels.push(overAllDateList[i]);
+            if (getCaseDay) {
+              hospitilasationCovidDataHolder.push(Number(getCaseDay.hospitalisation));
 
+              tests.push(Number(getCaseDay.cumulative_tests));
+              this.barChartLabels.push(overAllDateList[i]);
+            }
           } else {
             this.barChartLabels.push(overAllDateList[i]);
             hospitilasationCovidDataHolder.push(0);
@@ -103,7 +104,6 @@ export class HomeComponent implements OnInit {
         // let gauTotal = totalHolder.reduce((sum, current) => sum + current, 0);
         this.barChartData[1].data = totalHolder;
 
-        console.log(this.barChartData[0]);
       }, function (err: any) {
         console.log(err);
       });

@@ -87,16 +87,16 @@ export class SouthAfricaComponent implements OnInit {
   gautengCovidData: any = [];
   // events
   public chartClicked(e: any): void {
-    console.log(e);
+    // console.log(e);
   }
 
   public chartHovered(e: any): void {
-    console.log(e);
+    // console.log(e);
   }
 
   getDailyReportByCountryNameAndDate() {
     const overAllDateList: string[] = []
-    for (var i = 0; i < 7; i++) {
+    for (var i = 0; i < 8; i++) {
       const todaysDate = new Date();
       todaysDate.setDate(todaysDate.getDate() - i);
       const todaysDateIso = todaysDate.toISOString().substring(0, 10);
@@ -105,20 +105,22 @@ export class SouthAfricaComponent implements OnInit {
     forkJoin(this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[0]), this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[1]),
       this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[2]), this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[3]),
       this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[4]), this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[5]),
-      this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[6]),
-      this.qedCovidService.getDailyReportForProvinces()).subscribe(([dayOne, dayTwo, dayThree, dayFour, dayFive, daySix, daySeven, gautengData]:
-        [any, any, any, any, any, any, any, any]) => {
+      this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[6]), this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[7]),
+      this.qedCovidService.getDailyReportForProvinces()).subscribe(([dayOne, dayTwo, dayThree, dayFour, dayFive, daySix, daySeven, dayEight, gautengData]:
+        [any, any, any, any, any, any, any, any,any]) => {
         // separate the days data to get labels
         // this.data
+        console.log(dayOne);
+        console.log(this.qedCovidService.dailyReportByCountryName['south-africa']);
         for (var i = 0; i < overAllDateList.length; i++) {
-
           if (this.qedCovidService.dailyReportByCountryName['south-africa'][i]) {
             const getCaseDay = this.qedCovidService.dailyReportByCountryName['south-africa'].find((x: any) => x.day === overAllDateList[i]);
             let convertCaseToNumberArray = getCaseDay.cases.new.split('+');
 
             let caseToNumber = Number(convertCaseToNumberArray[1]);
             let todaysDateLable = new Date(overAllDateList[i]);
-            let todaysDateLableConverted = this.datepipe.transform(todaysDateLable, 'dd-MMM-yyyy') || '';
+            let todaysMinus = todaysDateLable.setDate(todaysDateLable.getDate() - 1);
+            let todaysDateLableConverted = this.datepipe.transform(todaysMinus, 'dd-MMM-yyyy') || '';
             // this.data.labels.push(todaysDateLableConverted);
             this.demodoughnutChartData.push(caseToNumber!);
             this.doughnutChartLabels.push(todaysDateLableConverted!);
