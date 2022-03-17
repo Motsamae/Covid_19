@@ -1,1 +1,34 @@
-<p>nigeria under construction</p>
+<mat-grid-list cols="4" rowHeight="100px">
+  <mat-grid-tile *ngFor="let tile of tiles"
+                 [colspan]="tile.cols"
+                 [rowspan]="tile.rows">
+    {{tile.text}}
+  </mat-grid-tile>
+</mat-grid-list>
+<div style="display: flex;padding-right:0.5rem">
+  <div style="width:100%;height:100%">
+    <mat-card style="flex: 1 1 auto;">
+      <mat-card-header>
+        <mat-card-title>New Cases/Deaths</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="flex">
+          <div class="flex-item">
+            <div style="display: block">
+              <canvas baseChart width="400" height="415"
+                      [labels]="doughnutChartLabels"
+                      [datasets]="demodoughnutChartData2"
+                      [chartType]="doughnutChartType"
+                      [colors]="doughnutChartColors"
+                      [options]="options"
+                      (chartHover)="chartHovered($event)"
+                      (chartClick)="chartClicked($event)"></canvas>
+            </div>
+
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
