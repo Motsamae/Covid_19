@@ -107,7 +107,7 @@ export class SouthAfricaComponent implements OnInit {
       this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[4]), this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[5]),
       this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[6]), this.qedCovidService.getDailyReportByCountryName('south-africa', overAllDateList[7]),
       this.qedCovidService.getDailyReportForProvinces()).subscribe(([dayOne, dayTwo, dayThree, dayFour, dayFive, daySix, daySeven, dayEight, gautengData]:
-        [any, any, any, any, any, any, any, any,any]) => {
+        [any, any, any, any, any, any, any, any, any]) => {
         // separate the days data to get labels
         // this.data
         console.log(dayOne);
@@ -127,7 +127,11 @@ export class SouthAfricaComponent implements OnInit {
             this.demodoughnutChartData2[0].data?.push(caseToNumber);
 
             // deaths
-            convertCaseToNumberArray = getCaseDay.deaths.new.split('+');
+            if (getCaseDay.deaths.new) {
+              convertCaseToNumberArray = getCaseDay.deaths.new.split('+');
+            } else {
+              convertCaseToNumberArray = ['','0'];
+            }
             caseToNumber = Number(convertCaseToNumberArray[1]);
             todaysDateLable = new Date(overAllDateList[i]);
 
